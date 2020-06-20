@@ -1,0 +1,799 @@
+
+<!DOCTYPE html>
+<html ng-app="gravityBroadcast">
+<head>
+    <title id="web_page_title">常熟市检察院：植入服务“芯片” 当好民企“法治护航人”</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta content="authenticity_token" name="csrf-param" />
+<meta content="LVM4yUrYJ2midRJZVmDcOVrNPQlKPF3Q8rC8Df+zvWk=" name="csrf-token" />
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+
+    <!-- 普通新闻、题图新闻使用simple_show.js ,减少js体积-->
+        <script src="/assets/news/simple_show-4a3cb6e131b1ba298c429ec0733434c0.js" type="text/javascript"></script>
+
+
+    <link href="/assets/news-beba2d67e7f778cce89e00a8cd54699a.css" media="all" rel="stylesheet" type="text/css" />
+
+    <script type="text/javascript">
+        function resizePaddingTop(video) {
+            var height = 0;
+            var videoHeight = 0;
+            if ($('#fixed-top-video video').length > 0) {
+                videoHeight = 430.0/750.0*$('body').width();
+                if (video && video.videoWidth>0 && video.videoHeight) {
+                    if (video.videoWidth > video.videoHeight) {
+                        videoHeight = video.videoHeight*1.0/video.videoWidth*$('body').width();
+                    }
+                }
+            }
+
+            if(navigator.userAgent.match(/AppleWebKit.*Mobile.*/)) {
+                if ($('#app-header').css('display') != 'none') {
+                    height += 60.0 / 375.0 * $('body').width();
+                }
+            }
+            else {
+                if ($('#app-header').css('display') != 'none') {
+                    height += 40.0 / 375.0 * $('body').width();
+                }
+            }
+            height += videoHeight;
+            $('#title_image').css('padding-top', height+'px');
+            $('#fixed-top-video video').css('height', videoHeight+'px');
+            $('#fixed-top-video video').css('width', $('body').width()+'px');
+        }
+
+        function closeAd() {
+            document.getElementById("app-ad").style.display = "none";
+            document.getElementById("app-footer").style.margin = 0;
+            document.getElementById("app-footer").style.paddingBottom = "13px";
+            var redirectApp = document.getElementById("redirect-app");
+            if (redirectApp) {
+                redirectApp.style.bottom = "16px";
+            }
+        }
+
+        function insertDiv(data) {
+            var information = $(".app-comment-list");
+            var html = '';
+            for (var i = 0; i < data.length; i++) {
+                if (data[i].no == 0) {
+                    html += "<div class='app-comment-body'><div class='app-commnent-headerphoto' style='background-image: url(" + data[i].photo + ")' ></div><div class='app-comment-info'><div class='app-comment-location'>" + data[i].name + "</div><div class='app-comment-date'>" + data[i].date + "</div></div><div class='app-comment-content'>" + data[i].content + "</div>";
+                    if (data[i].admin_comments && data[i].admin_comments.length > 0) {
+                        html += "<div class='admin-comment-title'>小编回复</div>";
+                        for (var j = 0; j < data[i].admin_comments.length; j++) {
+                            html += "<div class='app-comment-content'>";
+                            html += data[i].admin_comments[j];
+                            html += "</div>";
+                        }
+                    }
+                    html += "<div class='app-comment-like-count'><img class='app-comment-like-count-img' src='/assets/comment_like_no@2x.png' values=" + data[i].id + " onclick = 'send_like_to_comment(this);'><span class='app-comment-like-count-no' id='app-comment-like-count-no-" + data[i].id + "'></span></div></div>"
+                } else {
+                    html += "<div class='app-comment-body'><div class='app-commnent-headerphoto' style='background-image: url(" + data[i].photo + ")' ></div><div class='app-comment-info'><div class='app-comment-location'>" + data[i].name + "</div><div class='app-comment-date'>" + data[i].date + "</div></div><div class='app-comment-content'>" + data[i].content + "</div>";
+                    html += "<div class='comment-click-area' values = '" + data[i].id + "' onclick='send_like_to_comment(this)'></div>"
+                    if (data[i].admin_comments && data[i].admin_comments.length > 0) {
+                        html += "<div class='admin-comment-title'>小编回复</div>";
+                        for (var j = 0; j < data[i].admin_comments.length; j++) {
+                            html += "<div class='app-comment-content'>";
+                            html += data[i].admin_comments[j];
+                            html += "</div>";
+                        }
+                    }
+                    if( data[i].like){
+                        html += "<div class='app-comment-like-count'><img class='app-comment-like-count-img  comment-like-img-" + data[i].id + "' src='/assets/comment_like_yes@2x.png' values=" + data[i].id + "><span class='app-comment-like-count-no' id='app-comment-like-count-no-" + data[i].id + "'>" + data[i].no + "&nbsp;</span></div></div>"
+                    }
+                    else {
+                        html += "<div class='app-comment-like-count'><img class='app-comment-like-count-img  comment-like-img-" + data[i].id + "' src='/assets/comment_like_no@2x.png' values=" + data[i].id + "><span class='app-comment-like-count-no' id='app-comment-like-count-no-" + data[i].id + "'>" + data[i].no + "&nbsp;</span></div></div>"
+                    }
+                }
+            }
+            information.append(html);
+            $("#more").html("加载更多");
+            $("#more").attr("data-status", "1");
+        }
+        function modify_gif_src() {
+            $("#markdown_preview_content img").each(function () {
+                var img = $(this)[0];
+                $(this).attr("data-original", img.src);
+                $(this).attr("src", "");
+                $(this).addClass('lazy');
+            });
+        }
+        window.onload=function(){
+          var xa = window.navigator.userAgent;
+          if (xa.indexOf("szxw") < 0) {
+            var allHeight = document.body.clientHeight
+            var shouldHeight = allHeight - 210
+            var realHeight = parseFloat(window.getComputedStyle(markdown_preview_content).getPropertyValue('height'))
+            if (realHeight > shouldHeight) {
+              $('.editor_name').hide();
+              $('.markdown_preview_content_hide').show();
+              $('#markdown_preview_content').css('max-height', '410px')
+              $('#markdown_preview_content').css('overflow', 'hidden');
+            }
+          }
+        };
+
+        $(document).ready(function () {
+            var footer = document.getElementById("footer")
+            if (footer) {
+                footer.style.display = "none";
+            }
+            
+
+            $("#markdown_preview_content>p").each(function(){
+                if($(this).prev().prop("nodeName") == "STYLE") {
+                    $(this).css("margin-top","5px");
+                }
+            });
+            if($(".swiper-slide")){
+                $(".swiper-slide").css('height',document.body.clientWidth*0.8)
+            }
+            //正文图片懒加载
+            //modify_gif_src();
+            // $("#markdown_preview_content img.lazy").lazyload({
+            // effect : "fadeIn",
+            // threshold : 200
+            // });
+
+            //初始化音频
+            if($('.weixinAudio').length > 0){
+                $('.weixinAudio').weixinAudio();
+            }
+
+            $("#more").click(function () {
+                var page = parseInt($("#page").val());
+                $(this).html("加载中...");
+                status = $(this).attr("data-status");
+                if (status == 1) {
+                    status = $(this).attr("data-status", "0");
+                    $.ajax({
+                        type: "get",
+                        url: "/news/moreComments",
+                        data: "page=" + page + "&page_size=100&id=" +300147599,
+                        beforeSend: function (xhr) {
+                            xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))
+                        },
+                        dataType: "json",
+                        success: function (data) {
+                            data = data.data;
+                            /*数据不够10条隐藏按钮*/
+                            if (data.length < 100) {
+                                $("#more").hide();
+                            } else {
+                                $("#page").val(page + 1);//记录页码
+                            }
+                            insertDiv(data);
+                        }
+                    });
+                }
+            });
+
+			// 播放视频按钮
+			$('.play-icon').click(function () {
+				var video = $(this).prev();
+				if (video[0].paused) {
+					video[0].play();
+				}
+			});
+
+			// 视频事件，点击暂停或者播放
+			$('.news-video video').each(function () {
+				this.onpause = function () {
+					$(this).next().show();
+				};
+				this.onplay = function () {
+					$(this).next().hide();
+				};
+				this.onclick = function () {
+					if (this.paused) {
+						this.play();
+					} else {
+						this.pause();
+					}
+				}
+			});
+
+
+            addVideoStyle(); // 视频在页面内播放
+
+            if($("#app-qrcode").length > 0){
+                // 生成扫一扫二维码
+                $("#app-qrcode").qrcode({
+                    render: "canvas", //table方式 支持canvas和table两种方式 默认是canvas，canvas方式还支持右键图片下载
+                    width: 100, //宽度 默认是256
+                    height: 100, //高度 默认是256，建议宽度和高度保持一致，否则不容易被识别
+                    background: "#ffffff",//背景颜色
+                    foreground: "#000000", //前景颜色
+                    text: "icityylb://gotoNative?type=news&id=300147599"//任意内容
+                });
+            }
+
+
+            // 播放视频按钮
+            $('.play-icon').click(function () {
+                var video = $(this).prev();
+                if (video[0].paused) {
+                    video[0].play();
+                }
+            });
+
+            // 视频事件，点击暂停或者播放
+            $('.news-video video').each(function () {
+                this.onpause = function () {
+                    $(this).next().show();
+                };
+                this.onplay = function () {
+                    $(this).next().hide();
+                };
+                this.onclick = function () {
+                    if (this.paused) {
+                        this.play();
+                    } else {
+                        this.pause();
+                    }
+                }
+            });
+
+            $('#news-like-btn').bind('click', function () {
+                if(!$('#news-like-btn').hasClass('news-like-btn-liked-end')) {
+                    send_like_to_news(this);
+                }
+            });
+
+            $('#news-body-close').bind('click', function () {
+                showNewsImages();
+            });
+
+            // 初始化点赞按钮状态
+            (function () {
+                var udid = Cookies.get("udid") || localStorage.getItem("udid") || Cookies.get("szxw-uid") || localStorage.getItem("szxw-uid") || "";
+                $.ajax({
+                    url: '/news/getNewsLikeBtnStatus',
+                    type: 'POST',
+                    data: {
+                        id: $('#news-like-btn').data('news-id'),
+                        udid: udid
+                    },
+                    dataType: 'json',
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))
+                    },
+                    success: function (data) {
+                        if (data.code == 1) {
+                            var newsLikeBtn = $('#news-like-btn');
+                            if (data.like_count != null) {
+                                newsLikeBtn.html(data.like_count);
+                            }
+                            if (data.btn_status == 1) {
+                                newsLikeBtn.removeClass('news-like-btn-like');
+                                newsLikeBtn.addClass('news-like-btn-liked-end');
+                            } else {
+                                newsLikeBtn.removeClass('news-like-btn-liked-end');
+                                newsLikeBtn.addClass('news-like-btn-like');
+                            }
+                        }
+                    }
+                });
+            })();
+
+            resizePaddingTop();
+            if ($('#fixed-top-video video').length > 0) {
+                $('#fixed-top-video video')[0].addEventListener('loadedmetadata', function () {
+                    resizePaddingTop(this);
+                })
+            }
+        });
+    </script>
+
+
+    <title>常熟市检察院：植入服务“芯片” 当好民企“法治护航人”</title>
+
+    <script src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js" type="text/javascript"></script>
+<script type="text/javascript">
+    wx.config({
+        debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+        appId: 'wx47832ff13823a4ed', // 必填，公众号的唯一标识
+        timestamp: 1592634821, // 必填，生成签名的时间戳
+        nonceStr: 'e7fb6650-94ed-0138-d733-00163e0c924a', // 必填，生成签名的随机串
+        signature: '',// 必填，签名，见附录1
+        jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage', 'previewImage'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+    });
+    wx.ready(function(){
+        // config信息验证后会执行ready方法，所有接口调用都必须在config接口获得结果之后，config是一个客户端的异步操作，所以如果需要在页面加载时就调用相关接口，则须把相关接口放在ready函数中调用来确保正确执行。对于用户触发时才调用的接口，则可以直接调用，不需要放在ready函数中。
+        wx.onMenuShareAppMessage({
+            title: '常熟市检察院：植入服务“芯片” 当好民企“法治护航人”', // 分享标题
+            desc: '了解更多新闻资讯 请下载苏报集团“引力播”App →', // 分享描述
+            link: 'https://preview.suzhou-news.cn/news/300147599', // 分享链接
+            imgUrl: 'https://preview.suzhou-news.cn/assets/app_icon_ylb.png', // 分享图标
+            type: '', // 分享类型,music、video或link，不填默认为link
+            dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+            success: function () { 
+                // 用户确认分享后执行的回调函数
+                if (typeof(onShareSuccess) == "function") {
+                  onShareSuccess();
+                }
+            },
+            cancel: function () { 
+                // 用户取消分享后执行的回调函数
+            }
+        });
+        wx.onMenuShareTimeline({
+            title: '常熟市检察院：植入服务“芯片” 当好民企“法治护航人”', // 分享标题
+            link: 'https://preview.suzhou-news.cn/news/300147599', // 分享链接
+            imgUrl: 'https://preview.suzhou-news.cn/assets/app_icon_ylb.png', // 分享图标
+            success: function () { 
+                // 用户确认分享后执行的回调函数
+                if (typeof(onShareSuccess) == "function") {
+                  onShareSuccess();
+                }
+            },
+            cancel: function () { 
+                // 用户取消分享后执行的回调函数
+            }
+        });
+    });
+    
+    $(document).ready(function() {
+        $(document).on('click', '#title_image > img,#markdown_preview_content img,.swiper-container img, .life-content .image img',function(event) {
+            var host = window.location.protocol + '//' + window.location.host;
+            var imgArray = [];
+            var url = $(this).data('origin-url');
+            if (typeof(url) == "undefined") {
+                url = $(this).attr('src');
+            }
+            if (typeof(url) == "undefined") {
+                url = $(this).attr('data-src');
+            }
+            var curImgSrc =  url;
+            if($("#title_image>img").attr("src")) {
+                imgArray.push($("#title_image>img").attr("src"))
+            }
+            $('#markdown_preview_content img,.swiper-container img, .life-content .image img').each(function(index, el) {
+                var url = $(this).data('origin-url');
+                if (typeof(url) == "undefined") {
+                    url = $(this).attr('src');
+                }
+                if (typeof(url) == "undefined") {
+                    url = $(this).attr('data-src');
+                }
+                var itemSrc =  url;
+                imgArray.push(itemSrc);
+            });
+            
+            wx.previewImage({
+                current: curImgSrc, // 当前显示图片的http链接
+                urls: imgArray // 需要预览的图片http链接列表
+            });
+        });
+    });
+
+    function onShareSuccess() {
+      //分享记录
+      $.ajax({
+        url: '/news/saveForwardLog',
+        type: 'POST',
+        data: {
+          news_id:'300147599'
+        },
+        dataType:'json',
+        success: function(data){
+        },
+        error: function(error){
+        }
+      });
+    }
+</script>
+</head>
+<body>
+
+
+<div class="qrcode-container" style="display: none;">
+    <div class="news-qrcode">
+        <div id="app-qrcode"></div>
+        <p>
+            引力播App<br>
+            扫一扫阅读<br>
+        </p>
+    </div>
+</div>
+
+    <div class="app-body">
+        <div id="fixed-top" style="max-width:842px;position:fixed;background-color:#ffffff;z-index:999;">
+            <div class="app-header" id="app-header">
+              <a href="http://a.app.qq.com/o/simple.jsp?pkgname=com.iCitySuzhou.suzhou001" style="display:block;width:100%;height:auto" target="_blank">
+                  <img src="/assets/download_head.png">
+              </a>
+            </div>
+        </div>
+        <div class="title-image" id="title_image">
+        </div>
+
+        <div class="news-body" id="news-body">
+            <div class="news-title">常熟市检察院：植入服务“芯片” 当好民企“法治护航人”</div>
+            <div style="overflow: hidden;position:relative;">
+                <div class="news-source">
+                      <img src="/assets/other_news_from@2x.png">
+                    名城苏州网
+                </div>
+                <div class="news-time">2020-04-13&nbsp;22:16</div>
+            </div>
+
+                <div id="markdown_preview_content">
+                    <video controls="controls" 
+poster=https://sznews-production.oss-cn-shanghai.aliyuncs.com/external_storage/pictures/livenews_item_image/31966/medium/livenews-item-image20190818220834.png?1566137313
+src="https://sznews-production.oss-cn-shanghai.aliyuncs.com/external_storage/upload/video/grravity_broadcast20190818220754477.mp4" style ="width: 100%;">您的浏览器不支持 video 标签。</video>
+
+<p>为保障民营经济高质量发展，苏州各级检察机关充分发挥职能优势，营造一流的法治化营商环境。在常熟，检察机关通过开辟“绿色通道”，为民营企业发展植入“检察服务芯片”。</p>
+
+<video id="video" controls x5-video-player-type="h5-page" width="100%" src="https://sznews-production.oss-cn-shanghai.aliyuncs.com/external_storage/upload/video/grravity_broadcast20190818220754477.mp4"></video>
+
+<p>在常熟，当地一家知名茶叶企业最近遭遇“李鬼”。不少消费者反映，买到的茶叶外包装和正品很相近，但口感却差了很多。</p>
+
+<p>常熟市虞山绿茶有限公司经理方志强说，“李鬼”茶叶包装的生产日期都没有，防伪标贴都是假的，价格低一半左右，而且有的假冒商品拿陈茶在当新茶卖。</p>
+
+<p><img src="https://sznews-production.oss-cn-shanghai.aliyuncs.com/external_storage/pictures/news_item_image/284445/medium/News-item-image20190818221405.png?1566137645%20=100%x100%" alt="引力播"></p>
+
+<p>企业在打假中发现，市场上的“李鬼”经销商数量远超想象，有数十家之多。这么多假冒产品横行市场，不仅影响了企业正常销售，更给食品安全带来一定危害。</p>
+
+<p>方志强说，必须要对这种假冒行为及时制止，通过法律来维权。</p>
+
+<p><img src="https://sznews-production.oss-cn-shanghai.aliyuncs.com/external_storage/pictures/news_item_image/284446/medium/News-item-image20190818221426.png?1566137666%20=100%x100%" alt="引力播"></p>
+
+<p>说到维权，面对大量的司法诉讼，对于缺乏专业法律人员的企业来说，并不容易。常熟市检察院在了解这一情况后，立即为企业开辟“绿色通道”，组织精干力量专门负责办理此案。</p>
+
+<p><img src="https://sznews-production.oss-cn-shanghai.aliyuncs.com/external_storage/pictures/news_item_image/284447/medium/News-item-image20190818221444.png?1566137684%20=100%x100%" alt="引力播"></p>
+
+<p>常熟市人民检察院员额检察官孙晓芳说，检察院根据我国《民事诉讼法》的相关规定，代表被侵权的企业，支持起诉。涉及到案件一共是36件，案件的支持起诉金额是100余万元。</p>
+
+<p>在检察机关指导下，案件很快进入到诉讼程序。最终，企业打赢了官司，生产、销售假冒伪劣茶叶的不法商贩被绳之以法。</p>
+
+<p><img src="https://sznews-production.oss-cn-shanghai.aliyuncs.com/external_storage/pictures/news_item_image/284448/medium/News-item-image20190818221454.png?1566137693%20=100%x100%" alt="引力播"></p>
+
+<p>孙晓芳说，这样的做法一方面也是维护了企业的商标权，同时，检察机关作为公共利益的代表也能够保证千家万户舌尖上的安全。</p>
+
+<p><img src="https://sznews-production.oss-cn-shanghai.aliyuncs.com/external_storage/pictures/news_item_image/284449/medium/News-item-image20190818221508.png?1566137707%20=100%x100%" alt="引力播"></p>
+
+<p>在当好“护航手”的同时，常熟检察机关积极发挥法律“专科医生”的优势，在知识产权、金融管理等方面当好民营企业的参谋。在波司登羽绒服装公司，新款产品上市不久就被仿冒。</p>
+
+<p><img src="https://sznews-production.oss-cn-shanghai.aliyuncs.com/external_storage/pictures/news_item_image/284450/medium/News-item-image20190818221533.png?1566137733%20=100%x100%" alt="引力播"></p>
+
+<p>波司登羽绒服装有限公司知识产权经理陈志锋说，这个设计是独有的，对方侵犯了这个外观设计的专利。</p>
+
+<p><img src="https://sznews-production.oss-cn-shanghai.aliyuncs.com/external_storage/pictures/news_item_image/284451/medium/News-item-image20190818221546.png?1566137745%20=100%x100%" alt="引力播"></p>
+
+<p>企业迅速启动异地打假，在市场监管、公安等部门协助下，捣毁了制假团伙。在维权过程中，常熟检察机关多次深入企业，提供针对性的法律咨询，指导企业依法从刑事和民事两方面，准备好相关诉讼材料。</p>
+
+<p>常熟市人民检察院第二检察部副主任顾万炎表示，检察院对这类案件开辟绿色通道，主动听取被害单位意见和诉求，积极回应关切和需要，促使被告人赔偿因假冒注册商标造成的损失270万元。</p>
+
+<p>2017年至今，常熟市检察院已办理侵犯民营企业知识产权案件48件。同时，还启动“普法进企、带案进企、青年进企”工程，从劳动用工、风险防范等方面，加强对民营企业的法律服务和政策引导，使“检察服务芯片”植入到民营经济发展的各个领域。</p>
+
+<p><img src="https://sznews-production.oss-cn-shanghai.aliyuncs.com/external_storage/pictures/news_item_image/284452/medium/News-item-image20190818221608.png?1566137768%20=100%x100%" alt="引力播"></p>
+
+<p>常熟市人民检察院副检察长邢桂霞表示， 在办案中积极帮助民营企业追赃挽损，同时积极发挥检察建议职能，围绕办案中发现的企业管理疏漏提供精准法律服务，帮助企业防范风险、优化产业发展环境，当好民营企业高质量新发展的法治护航人。（《苏州新闻》顾正华 陆劲云）</p>
+
+                    <!-- <div class="markdown_preview_content_hide" onclick="seeAllContent()"><img src="/assets/pull_down@2x.png" onclick="return false"></div>-->
+                </div>
+                <div class="editor_name">责任编辑：何兵</div>
+
+            
+
+
+            <div class="news-like">
+                <button id="news-like-btn" class="news-like-btn news-like-btn-like" data-news-id="300147599" >1</button>
+            </div>
+
+                    <p class="new-declaratives">本文著作权归名城苏州网及原作者所有</p>
+                <div><p class="new-declaratives">如有侵权请联系引力播</p></div>
+                <div style="text-align: center;"><a class="news-source-url" href="http://news.2500sz.com/doc/2019/08/18/477989.shtml">查看原文</a></div>
+        </div>
+    </div>
+    <div class="app-comment">
+        <div class="app-comment-list">
+                <div class="app-comment-none">暂无评论，快来抢沙发吧！</div>
+
+            <div class="clearfix"></div>
+        </div>
+    </div>
+    <div class="app-footer" id="app-footer">
+        Copyright &copy;&nbsp;2020 苏州日报报业集团
+    </div>
+<script>
+    var ua = window.navigator.userAgent;
+    var source = 'app';
+    if (ua.indexOf("szxw") > 0) {
+        source = 'app';
+        $('#app-ad').css("display", "none");
+        $('#app-footer').css("display", "none");
+        $('#app-header').css("display", "none");
+        if ($("#app-footer").style) {
+            $("#app-footer").style.margin = 0;
+        }
+        $(function () {
+            // $(".app-body img,.swiper-container img").each(function(){
+            $("#title_image > img").each(function () {
+                addEvent($(this)[0], "click", showImg);
+            });
+            $(".app-body #markdown_preview_content img, .swiper-container img").each(function () {
+                addEvent($(this)[0], "click", showImg);
+            });
+        });
+    } else {
+        source = 'web';
+        $('#app-ad').css("display", "block");
+        $('#app-footer').css("display", "block");
+        $('#app-header').css("display", "block");
+    }
+
+    $('.comment-click-area').bind("click", function () {
+        send_like_to_comment(this);
+    })
+
+    var bind_name = 'input';
+    if (navigator.userAgent.indexOf("MSIE") != -1) {
+        bind_name = 'propertychange';
+    }
+    $('#comment_input').bind(bind_name, function () {
+        checkCommentInput();
+    })
+    function showImg() {
+        var src = $(this).attr("src");
+        var orginal_src = src.replace(/\/medium\//, "/original/").replace(/\/small\//, "/original/").replace(/-small/, "-original").replace(/\/across\//, "/original/").replace(/_medium/, "_original");
+        console.log("orginal_src",orginal_src)
+        current_index = $.inArray(orginal_src, image_list);
+        // window.location.assign("szxw://showImg?imgUrl="+src);
+        window.location.assign("szxw://showImg?imgUrl=" + orginal_src + "&imgList=" + image_list_json + "&index=" + current_index);
+    }
+
+    function send_like_to_comment(obj) {
+        var livenewsId = obj.getAttribute('values');
+        var udid = Cookies.get("udid") || localStorage.getItem("udid") || Cookies.get("szxw-uid") || localStorage.getItem("szxw-uid") || "";
+        $.ajax({
+            url: '/news/sendLikeApp',
+            type: 'POST',
+            data: {
+                id: livenewsId,
+                udid: udid
+            },
+            dataType: 'json',
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))
+            },
+            success: function (data) {
+                if (data.code == 1) {
+                    $(".app-comment-like-count #app-comment-like-count-no-" + livenewsId).html(data.count + '&nbsp;');
+                    $(".comment-like-img-" + livenewsId).attr("src","/assets/comment_like_yes@2x.png")
+                } else {
+                    // alert(data.message);
+                }
+                $('.yl-loading').hide();
+            },
+            error: function () {
+                $('.yl-loading').hide();
+                alert("网络错误！");
+            },
+        });
+    }
+
+    function send_like_to_news(obj) {
+        // $('.yl-loading').show();
+        $("#news-like-btn").off();
+        $.ajax({
+            url: '/news/sendNewsLikeWeb',
+            type: 'POST',
+            data: {
+                id: $(obj).data('news-id')
+            },
+            dataType: 'json',
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))
+            },
+            success: function (data) {
+                if (data.code == 1) {
+                    var newsLikeBtn = $('#news-like-btn');
+                    if (data.like_count != null) {
+                        newsLikeBtn.html(data.like_count);
+                    }
+                    if (data.btn_status == 1) {
+                          var gif = "url(\"/assets/like_animation.gif?"+ Math.random() + "\")"
+                        newsLikeBtn.removeClass('news-like-btn-liked-end')
+                        newsLikeBtn.removeClass('news-like-btn-like');
+                        newsLikeBtn.addClass('news-like-btn-liked');
+                        newsLikeBtn.css('background-image', gif)
+                        setTimeout(function() {
+                            newsLikeBtn.addClass('news-like-btn-liked-end');
+                        },520)
+                        window.location.href = 'icityylb://didZan?id=300147599';
+                    }
+                    else {
+                        // newsLikeBtn.removeClass('news-like-btn-liked-end')
+                        // newsLikeBtn.removeClass('news-like-btn-liked');
+                        // newsLikeBtn.addClass('news-like-btn-like');
+                    }
+                    // alert(data.message);
+                } else {
+                    alert(data.message);
+                    $('#news-like-btn').bind('click', function () {
+                        if(!$('#news-like-btn').hasClass('news-like-btn-liked-end')) {
+                        send_like_to_news(this);
+                }
+            });
+                }
+                // $('.yl-loading').hide();
+            },
+            error: function () {
+                // $('.yl-loading').hide();
+                alert("网络错误！");
+            }
+        });
+    }
+
+    //添加事件通用方法
+    function addEvent(element, e, fn) {
+        //firefox使用addEventListener，来添加事件
+        if (element.addEventListener) {
+            element.addEventListener(e, fn, false);
+        }
+        //ie使用attachEvent，来添加事件
+        else {
+            element.attachEvent("on" + e, fn);
+        }
+    }
+    function showComments() {
+        $('.image-news-content').hide();
+        $('#image-news-comment').fadeIn('fast');
+    }
+
+    function showNewsImages() {
+        $('.image-news-content').show();
+        $('#image-news-comment').hide();
+    }
+
+    if (document.getElementById('download-img')) {
+        document.getElementById('download-img').onload = function () {
+            $('.redirect-app').css("bottom", $('#app-ad')[0].clientHeight + 16 + "px");
+        };
+    }
+
+    window.onresize = function () {
+        if ($('#app-ad')[0]) {
+            $('.redirect-app').css("bottom", $('#app-ad')[0].clientHeight + 16 + "px");
+        }
+
+        if (window.innerWidth > 500) {
+            $('.qrcode-container').css("display", "block");
+        } else {
+            $('.qrcode-container').css("display", "none");
+        }
+
+        resizePaddingTop();
+    };
+
+    var image_list = [];
+    var image_list_json = {};
+    var current_index = 0;
+    $(function () {
+        $(".app-body #markdown_preview_content img").each(function () {
+            var src = $(this).attr("src");
+            var orginal_src = src.replace(/\/medium\//, "/original/").replace(/\/small\//, "/original/").replace(/\/across\//, "/original/").replace(/-small/, "-original");
+            image_list.push(orginal_src);
+        });
+        if($("#title_image>img").attr("src")){
+            var src = $("#title_image>img").attr("src");
+            var orginal_src = src.replace(/_medium/, "_original").replace(/\/small\//, "/original/").replace(/\/across\//, "/original/").replace(/-small/, "-original");
+            image_list.unshift(orginal_src)
+        }
+        $(".swiper-container img").each(function () {
+            var orginal_src = $(this).attr("data-src").replace(/\/medium\//, "/original/").replace(/\/small\//, "/original/").replace(/\/across\//, "/original/").replace(/-small/, "-original")
+            image_list.push(orginal_src);
+        });
+        image_list_json = encodeURIComponent(JSON.stringify(image_list));
+    });
+
+    function addVideoPoster() {
+        $('video').each(function () {
+            var poster = $(this).attr('poster');
+            if (!poster || poster.length == 0) {
+                $(this).attr('poster', '/assets/yanshi_poster.png')
+            }
+        })
+    }
+
+    setInterval('addVideoPoster()', 500);
+
+    function addVideoStyle() {
+        $('video').each(function () {
+            //$(this).attr('webkit-playsinline', 'true');
+            //$(this).attr('playsinline', 'true');
+            //$(this).attr('x-webkit-airplay', 'true');
+            //$(this).attr('x5-playsinline', 'true');
+            //$(this).attr('x5-video-player-type', 'h5');
+            //$(this).attr('x5-video-player-fullscreen', 'true');
+            //$(this).attr('x5-video-ignore-metadata', 'true');
+        })
+    }
+
+    function seeAllContent() {
+        // $('.app-body').height('auto')
+        // $(".app-body").on("touchstart", function(e) {
+        //     var xxx = 1
+        //     return xxx
+        // });
+        // $(".app-body").unbind()
+        // $(".redirect-app").hide();
+        $('.editor_name').show();
+        $('.markdown_preview_content_hide').hide();
+        // $('.markdown_preview_content_openin_app').hide();
+        $('#markdown_preview_content').css('max-height','none')
+        $('#markdown_preview_content').css('overflow','auto')
+    }
+    function goto_app_download() {
+        window.location.href = 'http://a.app.qq.com/o/simple.jsp?pkgname=com.iCitySuzhou.suzhou001'
+    }
+
+    // $('#app-header').bind('click', function() {
+    //     goto_app_download()
+    // })
+</script>
+<script>
+    // var small_video_show = false;
+    // if(source == 'app'){
+    //     $('#markdown_preview_content video').bind('play', function () {
+    //         console.log("开始播放视频");
+    //         if(!small_video_show){
+    //             var _video = this;
+    //             $(window).scroll(function () {
+    //                 var a = _video.offsetTop;
+    //                 if (a >= $(window).scrollTop() && a < ($(window).scrollTop()+$(window).height())) {
+    //
+    //                 }else{
+    //                     if(_video.paused){
+    //
+    //                     }else{
+    //                         if(!small_video_show){
+    //                             small_video_show = true;
+    //                             console.log("不在可视范围，且视频播放中");
+    //                             console.log(_video.currentTime);
+    //                             // TODO
+    //                             var url="szxw://showSmallVideoWindow?imgUrl=" + _video.src + "&currentTime=" + _video.currentTime;
+    //                             console.log(url);
+    //                             _video.pause();
+    //                             window.location.assign(url);
+    //                         }
+    //
+    //                     }
+    //                 }
+    //             });
+    //             $(_video).bind('error ended', function(){
+    //                 console.log("播放视频结束");
+    //                 small_video_show = false;
+    //             })
+    //
+    //         }
+    //     });
+    // }
+
+    //解析央视视频 flashvars
+    function getFlashvarsVariable(query,variable)
+    {
+        var vars = query.split("&");
+        for (var i=0;i<vars.length;i++) {
+            var pair = vars[i].split("=");
+            if(pair[0] == variable){return pair[1];}
+        }
+        return(false);
+    }
+
+    if($('#forApple')){
+        var flashvars = $('#forApple').find('embed').attr('flashvars');
+        if (flashvars){
+            createApplePlayer("flashPlayer",540,200,getFlashvarsVariable(flashvars,'videoCenterId'));
+        }
+    }
+
+</script>
+</body>
+</html>
